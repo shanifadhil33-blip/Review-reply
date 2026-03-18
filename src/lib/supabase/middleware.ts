@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -35,9 +35,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protect all routes under /dashboard
-  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
-    // No user, potentially respond by redirecting the user to the login page
+  // Define protected paths (served by the (dashboard) route group)
+  const protectedPaths = ['/locations', '/reviews', '/analytics', '/settings', '/onboarding']
+  const isProtectedPath = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))
+
+  // Protect dashboard routes
+  if (!user && isProtectedPath) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
@@ -46,7 +49,7 @@ export async function updateSession(request: NextRequest) {
   // Redirect logged-in users away from /login or /signup
   if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
     const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
+    url.pathname = '/locations'
     return NextResponse.redirect(url)
   }
 
