@@ -35,9 +35,9 @@ export const metadata: Metadata = {
       "Connect once. Set your voice. Turn it on. ReviewReply replies to every Google review automatically in your brand tone.",
     images: [
       {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
+        url: "/logo.png",
+        width: 512,
+        height: 512,
         alt: "ReviewReply — AI Review Reply Automation",
       },
     ],
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "ReviewReply — AI-Powered Google Business Profile Review Replies",
     description:
       "Connect once. Set your voice. Turn it on. ReviewReply replies to every Google review automatically in your brand tone.",
-    images: ["/opengraph-image"],
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
